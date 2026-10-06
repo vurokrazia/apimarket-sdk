@@ -1,0 +1,62 @@
+{
+  "name": "apimarket-sdk",
+  "version": "0.1.0",
+  "description": "SDK no oficial de Node.js/TypeScript para ApiMarket (validación de datos en México): REPUVE y más.",
+  "keywords": [
+    "apimarket",
+    "repuve",
+    "mexico",
+    "vehiculos",
+    "placas",
+    "niv",
+    "vin",
+    "sdk",
+    "kyc"
+  ],
+  "author": "Jesús Martínez <jesus.alberto.vk@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "docs",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "example": "tsx examples/repuve.ts",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
