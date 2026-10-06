@@ -19,6 +19,12 @@ por variables de entorno.
 npm install apimarket-sdk
 ```
 
+O directo desde GitHub (se compila al instalar):
+
+```bash
+npm install github:vurokrazia/apimarket-sdk
+```
+
 Requiere Node.js 18 o superior.
 
 ## Inicio rápido
