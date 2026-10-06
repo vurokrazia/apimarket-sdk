@@ -59,9 +59,12 @@ query string. El SDK usa **cuerpo JSON por defecto** y permite cambiarlo con `tr
 Todas las llamadas devuelven `ApiMarketResult<T>`:
 
 ```ts
-interface ApiMarketResult<T> {
-  found: boolean;              // false cuando la API responde "sin datos"
-  data: T | null;              // null cuando found === false
+// Unión discriminada: tras `if (r.found)` TypeScript sabe que `data` no es null.
+type ApiMarketResult<T> =
+  | (ApiMarketResultBase & { found: true; data: T })
+  | (ApiMarketResultBase & { found: false; data: null }); // "sin datos"
+
+interface ApiMarketResultBase {
   message: string;             // mensaje de la API
   codigoValidacion: string;    // folio único de la petición en ApiMarket
   status: number;              // status HTTP

@@ -29,19 +29,8 @@ export interface ApiMarketEnvelope<T = unknown> {
   [key: string]: unknown;
 }
 
-/**
- * Resultado normalizado de cualquier llamada del SDK.
- *
- * @typeParam T - Tipo de `data` cuando la consulta encontró información.
- */
-export interface ApiMarketResult<T> {
-  /**
-   * `true` si la API devolvió información. `false` cuando respondió "sin datos"
-   * (ApiMarket lo indica con HTTP 200, `success: true` y `data` vacío o solo con `ayuda`).
-   */
-  found: boolean;
-  /** Datos de la respuesta, o `null` cuando `found` es `false`. */
-  data: T | null;
+/** Campos comunes a cualquier resultado, haya o no datos. */
+export interface ApiMarketResultBase {
   /** Mensaje de la API (por ejemplo `"Exito"` o la explicación de por qué no hay datos). */
   message: string;
   /** Folio único de la petición en ApiMarket. Útil para soporte y auditoría. */
@@ -53,6 +42,21 @@ export interface ApiMarketResult<T> {
   /** Cuerpo original de la respuesta, sin modificar. */
   raw: unknown;
 }
+
+/**
+ * Resultado normalizado de cualquier llamada del SDK.
+ *
+ * Es una unión discriminada por `found`: después de `if (result.found)`, TypeScript sabe que `data` no es `null`.
+ *
+ * - `found: true` → la API devolvió información en `data`.
+ * - `found: false` → la API respondió "sin datos" (HTTP 200, `success: true` y `data` vacío o solo con `ayuda`);
+ *   `data` es `null` y `message` explica el motivo.
+ *
+ * @typeParam T - Tipo de `data` cuando la consulta encontró información.
+ */
+export type ApiMarketResult<T> =
+  | (ApiMarketResultBase & { found: true; data: T })
+  | (ApiMarketResultBase & { found: false; data: null });
 
 /**
  * Opciones que se pueden pasar en cada llamada. Tienen prioridad sobre las del constructor

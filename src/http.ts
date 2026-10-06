@@ -215,17 +215,15 @@ async function sendOnce<T>(
 
   // Algunos endpoints administrativos no usan el sobre { success, data }: se devuelve el cuerpo completo.
   const data = 'data' in envelope ? envelope.data : 'success' in envelope ? undefined : envelope;
-  const found = !notFoundButSuccessful && !isEmptyData(data);
-
-  return {
-    found,
-    data: found ? (data as T) : null,
+  const base = {
     message: apiMessage ?? '',
     codigoValidacion: codigoValidacion ?? null,
     status: response.status,
     rateLimit,
     raw: body,
   };
+  if (notFoundButSuccessful || isEmptyData(data)) return { ...base, found: false, data: null };
+  return { ...base, found: true, data: data as T };
 }
 
 /**

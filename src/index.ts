@@ -26,6 +26,7 @@ export { isValidPlate, isValidVin, normalizePlate, normalizeVin } from './valida
 export type {
   ApiMarketEnvelope,
   ApiMarketResult,
+  ApiMarketResultBase,
   EndpointCallOptions,
   HttpMethod,
   QueryValue,
